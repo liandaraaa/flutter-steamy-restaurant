@@ -65,9 +65,7 @@ class Restaurants {
     data['pictureId'] = this.pictureId;
     data['city'] = this.city;
     data['rating'] = this.rating;
-    if (this.menus != null) {
-      data['menus'] = this.menus.toJson();
-    }
+    data['menus'] = this.menus.toJson();
     return data;
   }
 }
