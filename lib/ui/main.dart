@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 
@@ -9,7 +10,48 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => new _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Init.instance.initialize(),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return MaterialApp(home: SplashScreenPage());
+        } else {
+          return MainPage();
+        }
+      },
+    );
+  }
+}
+
+class SplashScreenPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xe1f5fe).withOpacity(1.0),
+      body: Center(child: Image.asset('images/steamy_logo_big.png')),
+    );
+  }
+}
+
+class Init {
+  Init._();
+
+  static final instance = Init._();
+
+  Future initialize() async {
+    await Future.delayed(Duration(seconds: 3));
+  }
+}
+
+class MainPage extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -20,8 +62,8 @@ class MyApp extends StatelessWidget {
           accentColor: secondaryColor,
           scaffoldBackgroundColor: Colors.white,
           textTheme: myTextTheme,
-          appBarTheme:
-              AppBarTheme(textTheme: myTextTheme.apply(bodyColor: Colors.black)),
+          appBarTheme: AppBarTheme(
+              textTheme: myTextTheme.apply(bodyColor: Colors.black)),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
                   primary: secondaryColor,
