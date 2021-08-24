@@ -93,8 +93,38 @@ class RestaurantListPageState extends State<RestaurantListPage> {
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text(
-          "Steamy Restaurant",
+        middle: Material(
+          child: appBarTitle,
+        ),
+        trailing: Material(
+          child: IconButton(
+            icon: actionIcon,
+            onPressed: () {
+              setState(() {
+                if (this.actionIcon.icon == Icons.search) {
+                  this.actionIcon = Icon(Icons.close);
+                  this.appBarTitle = TextField(
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.search, color: Colors.black),
+                      hintText: "Search...",
+                      hintStyle: TextStyle(color: Colors.black),
+                    ),
+                    onSubmitted: (text) {
+                      Navigator.pushNamed(
+                          context, RestaurantSearchPage.routName,
+                          arguments: text);
+                    },
+                  );
+                } else {
+                  this.actionIcon = Icon(Icons.search);
+                  this.appBarTitle = Text("Steamy Restaurant");
+                }
+              });
+            },
+          ),
         ),
       ),
       child: _buildList(context),
