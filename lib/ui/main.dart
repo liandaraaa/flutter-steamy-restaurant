@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/data/provider/restaurant_provider.dart';
 
 import 'restaurant_detail_page.dart';
 import 'restaurant_list_page.dart';
@@ -12,7 +16,7 @@ void main() {
 
 class MyApp extends StatefulWidget {
   @override
-  _MyAppState createState() => new _MyAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -72,13 +76,37 @@ class MainPage extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(0))))),
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity),
-      initialRoute: RestaurantListPage.routName,
+      initialRoute: HomePage.routName,
       routes: {
-        RestaurantListPage.routName: (context) => RestaurantListPage(),
-        RestaurantDetailPage.routName: (context) => RestaurantDetailPage(
-            restaurants:
-                ModalRoute.of(context)?.settings.arguments as Restaurants)
+        HomePage.routName: (context) => HomePage(),
+        RestaurantPage.routName: (context) => RestaurantPage(
+            restaurant:
+                ModalRoute.of(context)?.settings.arguments as Restaurant)
       },
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  static const routName = '/home_page';
+
+  @override
+  HomePageState createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> {
+  List<Widget> listWidget = [
+    ChangeNotifierProvider(
+      create: (_) => RestaurantListProvider(apiService: ApiService()),
+      child: RestaurantListPage(),
+    )
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => RestaurantListProvider(apiService: ApiService()),
+      child: RestaurantListPage(),
     );
   }
 }

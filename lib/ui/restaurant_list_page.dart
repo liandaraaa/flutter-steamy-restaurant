@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/data/provider/restaurant_provider.dart';
 import 'package:restaurant_app/widgets/platform_widgets.dart';
 
 import 'restaurant_detail_page.dart';
@@ -14,16 +16,26 @@ class RestaurantListPage extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
-    return FutureBuilder<String>(
-      future: DefaultAssetBundle.of(context)
-          .loadString('assets/local_restaurant.json'),
-      builder: (context, snapshot) {
-        final RestaurantData data = parseRestaurantData(snapshot.data);
-        return ListView.builder(
-            itemCount: data.restaurants.length,
+    return Consumer<RestaurantListProvider>(
+      builder: (context, state, _) {
+        if (state.state == ResultState.Loading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state.state == ResultState.HasData) {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: state.response.restaurants.length,
             itemBuilder: (context, index) {
-              return _buildRestaurantItem(context, data.restaurants[index]);
-            });
+              var restaurant = state.response.restaurants[index];
+              return _buildRestaurantItem(context, restaurant);
+            },
+          );
+        } else if (state.state == ResultState.NoData) {
+          return Center(child: Text(state.message));
+        } else if (state.state == ResultState.Error) {
+          return Center(child: Text(state.message));
+        } else {
+          return Center(child: Text(''));
+        }
       },
     );
   }
@@ -48,7 +60,7 @@ class RestaurantListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRestaurantItem(BuildContext context, Restaurants restaurant) {
+  Widget _buildRestaurantItem(BuildContext context, Restaurant restaurant) {
     return Material(
       child: ListTile(
         contentPadding:
@@ -99,7 +111,7 @@ class RestaurantListPage extends StatelessWidget {
           ],
         ),
         onTap: () {
-          Navigator.pushNamed(context, RestaurantDetailPage.routName,
+          Navigator.pushNamed(context, RestaurantPage.routName,
               arguments: restaurant);
         },
       ),

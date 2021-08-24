@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 
 class MenuListWidget extends StatelessWidget {
-  final Menus menus;
+  final Menus? menus;
   final bool isFood;
 
   MenuListWidget({required this.menus, required this.isFood});
@@ -13,16 +13,16 @@ class MenuListWidget extends StatelessWidget {
     List list = List.empty();
 
     if (isFood) {
-      list = menus.foods;
+      list = menus?.foods ?? List.empty();
     } else {
-      list = menus.drinks;
+      list = menus?.drinks ?? List.empty();
     }
 
     return ListView.builder(
         shrinkWrap: true,
         itemCount: list.length,
         itemBuilder: (context, index) {
-          return _menuListItem(context, index+1, list[index].name);
+          return _menuListItem(context, index + 1, list[index].name);
         });
   }
 

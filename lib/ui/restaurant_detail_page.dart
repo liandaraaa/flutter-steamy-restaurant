@@ -1,16 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/data/provider/restaurant_provider.dart';
 import 'package:restaurant_app/widgets/menu_list_widgets.dart';
 
-class RestaurantDetailPage extends StatelessWidget {
+class RestaurantPage extends StatefulWidget {
   static const routName = '/restaurant_detail';
 
-  final Restaurants restaurants;
+  final Restaurant restaurant;
 
-  const RestaurantDetailPage({required this.restaurants});
+  const RestaurantPage({required this.restaurant});
+
+  @override
+  RestaurantPageState createState() => RestaurantPageState(id: restaurant.id);
+}
+
+class RestaurantPageState extends State<RestaurantPage> {
+  String id;
+
+  RestaurantPageState({required this.id});
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => RestaurantDetailProvider(apiService: ApiService(), id: id),
+      child: RestaurantDetailPage(),
+    );
+  }
+}
+
+class RestaurantDetailPage extends StatelessWidget {
+  Widget _buildDetail(BuildContext context) {
+    return Consumer<RestaurantDetailProvider>(
+      builder: (context, state, _) {
+        if (state.state == ResultState.Loading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state.state == ResultState.HasData) {
+          var restaurant = state.restaurantDetailResponse.restaurant;
+          return _restaurantDetail(context, restaurant);
+        } else if (state.state == ResultState.Error) {
+          return Center(child: Text(state.message));
+        } else {
+          return Center(child: Text(''));
+        }
+      },
+    );
+  }
+
+  Widget _restaurantDetail(BuildContext context, RestaurantDetail restaurants) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -66,5 +104,10 @@ class RestaurantDetailPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildDetail(context);
   }
 }
