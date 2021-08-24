@@ -4,34 +4,38 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/state.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
-import 'package:restaurant_app/data/provider/restaurant_list_provider.dart';
-import 'package:restaurant_app/ui/restaurant_search_page.dart';
+import 'package:restaurant_app/data/provider/restaurant_search_provider.dart';
+import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/widgets/platform_widgets.dart';
 
-import 'restaurant_detail_page.dart';
+class RestaurantSearchPage extends StatefulWidget {
+  static const routName = '/restaurant_search';
 
-class RestaurantListPage extends StatefulWidget {
-  static const routName = '/home_page';
+  String query = '';
+
+  RestaurantSearchPage({required this.query});
 
   @override
-  RestaurantListPageState createState() => RestaurantListPageState();
+  RestaurantSearchPageState createState() => RestaurantSearchPageState(query: query);
 }
 
-class RestaurantListPageState extends State<RestaurantListPage> {
-  Widget appBarTitle = Text("Steamy Restaurant");
-  Icon actionIcon = Icon(Icons.search);
+class RestaurantSearchPageState extends State<RestaurantSearchPage> {
+  String query = '';
+
+  RestaurantSearchPageState({required this.query});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => RestaurantListProvider(apiService: ApiService()),
+      create: (_) =>
+          RestaurantSearchProvider(apiService: ApiService(), query: query),
       child:
           PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos),
     );
   }
 
   Widget _buildList(BuildContext context) {
-    return Consumer<RestaurantListProvider>(
+    return Consumer<RestaurantSearchProvider>(
       builder: (context, state, _) {
         if (state.state == ResultState.Loading) {
           return Center(child: CircularProgressIndicator());
@@ -57,35 +61,7 @@ class RestaurantListPageState extends State<RestaurantListPage> {
 
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: appBarTitle, actions: <Widget>[
-        IconButton(
-          icon: actionIcon,
-          onPressed: () {
-            setState(() {
-              if (this.actionIcon.icon == Icons.search) {
-                this.actionIcon = Icon(Icons.close);
-                this.appBarTitle = TextField(
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search, color: Colors.black),
-                    hintText: "Search...",
-                    hintStyle: TextStyle(color: Colors.black),
-                  ),
-                  onSubmitted: (text) {
-                    Navigator.pushNamed(context, RestaurantSearchPage.routName,
-                        arguments: text);
-                  },
-                );
-              } else {
-                this.actionIcon = Icon(Icons.search);
-                this.appBarTitle = Text("Steamy Restaurant");
-              }
-            });
-          },
-        ),
-      ]),
+      appBar: AppBar(centerTitle: true, title: Text(query)),
       body: _buildList(context),
     );
   }
@@ -93,8 +69,7 @@ class RestaurantListPageState extends State<RestaurantListPage> {
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text(
-          "Steamy Restaurant",
+        middle: Text(query,
         ),
       ),
       child: _buildList(context),

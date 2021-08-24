@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
-import 'package:restaurant_app/data/provider/restaurant_provider.dart';
+import 'package:restaurant_app/ui/restaurant_search_page.dart';
 
 import 'restaurant_detail_page.dart';
 import 'restaurant_list_page.dart';
@@ -76,37 +74,16 @@ class MainPage extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(0))))),
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity),
-      initialRoute: HomePage.routName,
+      initialRoute: RestaurantListPage.routName,
       routes: {
-        HomePage.routName: (context) => HomePage(),
+        RestaurantListPage.routName: (context) => RestaurantListPage(),
         RestaurantPage.routName: (context) => RestaurantPage(
             restaurant:
-                ModalRoute.of(context)?.settings.arguments as Restaurant)
+                ModalRoute.of(context)?.settings.arguments as Restaurant),
+        RestaurantSearchPage.routName: (context) => RestaurantSearchPage(
+            query:
+            ModalRoute.of(context)?.settings.arguments as String)
       },
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  static const routName = '/home_page';
-
-  @override
-  HomePageState createState() => HomePageState();
-}
-
-class HomePageState extends State<HomePage> {
-  List<Widget> listWidget = [
-    ChangeNotifierProvider(
-      create: (_) => RestaurantListProvider(apiService: ApiService()),
-      child: RestaurantListPage(),
-    )
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => RestaurantListProvider(apiService: ApiService()),
-      child: RestaurantListPage(),
     );
   }
 }

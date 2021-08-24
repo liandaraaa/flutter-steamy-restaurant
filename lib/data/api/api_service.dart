@@ -25,4 +25,14 @@ class ApiService {
       throw Exception('Failed to load detail restaurant');
     }
   }
+
+  Future<RestaurantSearchResponse> getSearchRestaurants(String query) async {
+    var url = Uri.parse(_baseUrl + "/search?q=$query");
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      return RestaurantSearchResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load list of restaurants');
+    }
+  }
 }
