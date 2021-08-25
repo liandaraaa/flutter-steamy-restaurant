@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/ui/restaurant_detail_page.dart';
+import 'package:restaurant_app/ui/restaurant_list_page.dart';
 import 'package:restaurant_app/ui/restaurant_search_page.dart';
-
-import 'restaurant_detail_page.dart';
-import 'restaurant_list_page.dart';
+import 'package:restaurant_app/ui/splash_screen_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,26 +30,6 @@ class _MyAppState extends State<MyApp> {
         }
       },
     );
-  }
-}
-
-class SplashScreenPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xe1f5fe).withOpacity(1.0),
-      body: Center(child: Image.asset('images/steamy_logo_big.png')),
-    );
-  }
-}
-
-class Init {
-  Init._();
-
-  static final instance = Init._();
-
-  Future initialize() async {
-    await Future.delayed(Duration(seconds: 3));
   }
 }
 
@@ -81,8 +61,7 @@ class MainPage extends StatelessWidget {
             restaurant:
                 ModalRoute.of(context)?.settings.arguments as Restaurant),
         RestaurantSearchPage.routName: (context) => RestaurantSearchPage(
-            query:
-            ModalRoute.of(context)?.settings.arguments as String)
+            query: ModalRoute.of(context)?.settings.arguments as String)
       },
     );
   }
