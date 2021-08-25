@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ErrorWidgetPage extends StatelessWidget {
   String message;
@@ -8,17 +9,19 @@ class ErrorWidgetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image.asset(image),
-        SizedBox(
-          height: 10,
-        ),
-        Text(message,),
-      ],
-    ));
+    return Material(
+      child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(image),
+          SizedBox(
+            height: 10,
+          ),
+          Text(message,),
+        ],
+      )),
+    );
   }
 }
