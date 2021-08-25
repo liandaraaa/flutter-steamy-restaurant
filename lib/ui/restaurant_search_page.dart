@@ -6,6 +6,7 @@ import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/provider/restaurant_search_provider.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
+import 'package:restaurant_app/widgets/error_widget.dart';
 import 'package:restaurant_app/widgets/platform_widgets.dart';
 
 class RestaurantSearchPage extends StatefulWidget {
@@ -16,7 +17,8 @@ class RestaurantSearchPage extends StatefulWidget {
   RestaurantSearchPage({required this.query});
 
   @override
-  RestaurantSearchPageState createState() => RestaurantSearchPageState(query: query);
+  RestaurantSearchPageState createState() =>
+      RestaurantSearchPageState(query: query);
 }
 
 class RestaurantSearchPageState extends State<RestaurantSearchPage> {
@@ -49,9 +51,15 @@ class RestaurantSearchPageState extends State<RestaurantSearchPage> {
             },
           );
         } else if (state.state == ResultState.NoData) {
-          return Center(child: Text(state.message));
+          return ErrorWidgetPage(
+            message: state.message,
+            image: 'images/ic_empty.png',
+          );
         } else if (state.state == ResultState.Error) {
-          return Center(child: Text(state.message));
+          return ErrorWidgetPage(
+            message: state.message,
+            image: 'images/ic_error.png',
+          );
         } else {
           return Center(child: Text(''));
         }
@@ -68,8 +76,10 @@ class RestaurantSearchPageState extends State<RestaurantSearchPage> {
 
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
+
       navigationBar: CupertinoNavigationBar(
-        middle: Text(query,
+        middle: Text(
+          query,
         ),
       ),
       child: _buildList(context),

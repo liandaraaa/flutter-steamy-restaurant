@@ -4,6 +4,7 @@ import 'package:restaurant_app/common/state.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/provider/restaurant_detail_provider.dart';
+import 'package:restaurant_app/widgets/error_widget.dart';
 import 'package:restaurant_app/widgets/menu_list_widgets.dart';
 
 class RestaurantPage extends StatefulWidget {
@@ -41,7 +42,8 @@ class RestaurantDetailPage extends StatelessWidget {
           var restaurant = state.restaurantDetailResponse.restaurant;
           return _restaurantDetail(context, restaurant);
         } else if (state.state == ResultState.Error) {
-          return Center(child: Text(state.message));
+          return ErrorWidgetPage(
+              message: state.message, image: 'images/ic_error.png');
         } else {
           return Center(child: Text(''));
         }

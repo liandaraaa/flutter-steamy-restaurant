@@ -6,6 +6,7 @@ import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/provider/restaurant_list_provider.dart';
 import 'package:restaurant_app/ui/restaurant_search_page.dart';
+import 'package:restaurant_app/widgets/error_widget.dart';
 import 'package:restaurant_app/widgets/platform_widgets.dart';
 
 import 'restaurant_detail_page.dart';
@@ -45,9 +46,15 @@ class RestaurantListPageState extends State<RestaurantListPage> {
             },
           );
         } else if (state.state == ResultState.NoData) {
-          return Center(child: Text(state.message));
+          return ErrorWidgetPage(
+            message: state.message,
+            image: 'images/ic_empty.png',
+          );
         } else if (state.state == ResultState.Error) {
-          return Center(child: Text(state.message));
+          return ErrorWidgetPage(
+            message: state.message,
+            image: 'images/ic_error.png',
+          );
         } else {
           return Center(child: Text(''));
         }
