@@ -4,6 +4,7 @@ import 'package:restaurant_app/common/state.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/provider/restaurant_detail_provider.dart';
+import 'package:restaurant_app/ui/customer_reviews_page.dart';
 import 'package:restaurant_app/widgets/error_widget.dart';
 import 'package:restaurant_app/widgets/menu_list_widgets.dart';
 
@@ -78,6 +79,15 @@ class RestaurantDetailPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
                         ),
+                      ),
+                      SizedBox(height: 10),
+                      InkWell(
+                          child: Text("Tap to view Customer Reviews",
+                          style: TextStyle(fontSize: 8, color: Colors.blue),),
+                        onTap: () {
+                          Navigator.pushNamed(context, CustomerReviewsPage.routName,
+                              arguments: restaurants.customerReviews);
+                        },
                       ),
                       Divider(color: Colors.grey),
                       Text('Rating: ${restaurants.rating}'),

@@ -169,9 +169,9 @@ class CustomerReview {
     required this.date,
   });
 
-  String? name;
-  String? review;
-  String? date;
+  String name;
+  String review;
+  String date;
 
   factory CustomerReview.fromJson(Map<String, dynamic> json) => CustomerReview(
         name: json["name"],

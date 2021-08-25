@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/ui/customer_reviews_page.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant_list_page.dart';
 import 'package:restaurant_app/ui/restaurant_search_page.dart';
@@ -61,7 +62,10 @@ class MainPage extends StatelessWidget {
             restaurant:
                 ModalRoute.of(context)?.settings.arguments as Restaurant),
         RestaurantSearchPage.routName: (context) => RestaurantSearchPage(
-            query: ModalRoute.of(context)?.settings.arguments as String)
+            query: ModalRoute.of(context)?.settings.arguments as String),
+        CustomerReviewsPage.routName: (context) => CustomerReviewsPage(
+            reviews: ModalRoute.of(context)?.settings.arguments
+                as List<CustomerReview>)
       },
     );
   }
