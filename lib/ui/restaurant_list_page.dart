@@ -145,10 +145,13 @@ class RestaurantListPageState extends State<RestaurantListPage> {
             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         leading: ClipRRect(
             borderRadius: BorderRadius.circular(4.0),
-            child: Image.network(
-              restaurant.pictureId,
-              width: 100,
-              fit: BoxFit.fill,
+            child: Hero(
+              tag: restaurant.id,
+              child: Image.network(
+                restaurant.pictureId,
+                width: 100,
+                fit: BoxFit.fill,
+              ),
             )),
         title: Container(
           margin: EdgeInsets.only(bottom: 10),

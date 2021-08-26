@@ -52,13 +52,13 @@ class RestaurantDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _restaurantDetail(BuildContext context, RestaurantDetail restaurants) {
+  Widget _restaurantDetail(BuildContext context, RestaurantDetail restaurant) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          restaurants.name,
+          restaurant.name,
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -66,14 +66,16 @@ class RestaurantDetailPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Image.network(restaurants.pictureId),
+              Hero(
+                  tag: restaurant.id,
+                  child: Image.network(restaurant.pictureId)),
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        restaurants.name,
+                        restaurant.name,
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -86,16 +88,16 @@ class RestaurantDetailPage extends StatelessWidget {
                           style: TextStyle(fontSize: 8, color: Colors.blue),),
                         onTap: () {
                           Navigator.pushNamed(context, CustomerReviewsPage.routName,
-                              arguments: restaurants.customerReviews);
+                              arguments: restaurant.customerReviews);
                         },
                       ),
                       Divider(color: Colors.grey),
-                      Text('Rating: ${restaurants.rating}'),
+                      Text('Rating: ${restaurant.rating}'),
                       SizedBox(height: 10),
-                      Text('City: ${restaurants.city}'),
+                      Text('City: ${restaurant.city}'),
                       Divider(color: Colors.grey),
                       Text(
-                        restaurants.description,
+                        restaurant.description,
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(height: 10),
@@ -103,13 +105,13 @@ class RestaurantDetailPage extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14)),
                       SizedBox(height: 10),
-                      MenuListWidget(menus: restaurants.menus, isFood: true),
+                      MenuListWidget(menus: restaurant.menus, isFood: true),
                       SizedBox(height: 10),
                       Text("Drinks",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14)),
                       SizedBox(height: 10),
-                      MenuListWidget(menus: restaurants.menus, isFood: false)
+                      MenuListWidget(menus: restaurant.menus, isFood: false)
                     ]),
               ),
             ],
