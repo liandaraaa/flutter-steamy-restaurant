@@ -12,7 +12,7 @@ import 'package:restaurant_app/widgets/platform_widgets.dart';
 import 'restaurant_detail_page.dart';
 
 class RestaurantListPage extends StatefulWidget {
-  static const routName = '/home_page';
+  static const routName = '/restaurant_list_page';
 
   @override
   RestaurantListPageState createState() => RestaurantListPageState();

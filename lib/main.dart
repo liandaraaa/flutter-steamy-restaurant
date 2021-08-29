@@ -1,13 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:restaurant_app/common/styles.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/data/preferences/preferences_helper.dart';
+import 'package:restaurant_app/data/provider/preferences_provider.dart';
+import 'package:restaurant_app/data/provider/restaurant_list_provider.dart';
 import 'package:restaurant_app/ui/customer_reviews_page.dart';
+import 'package:restaurant_app/ui/home_page.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant_list_page.dart';
 import 'package:restaurant_app/ui/restaurant_search_page.dart';
 import 'package:restaurant_app/ui/splash_screen_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,35 +44,37 @@ class MainPage extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Steamy Restaurant',
-      theme: ThemeData(
-          primaryColor: primaryColor,
-          accentColor: secondaryColor,
-          scaffoldBackgroundColor: Colors.white,
-          textTheme: myTextTheme,
-          appBarTheme: AppBarTheme(
-              textTheme: myTextTheme.apply(bodyColor: Colors.black)),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                  primary: secondaryColor,
-                  textStyle: TextStyle(),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(0))))),
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity),
-      initialRoute: RestaurantListPage.routName,
-      routes: {
-        RestaurantListPage.routName: (context) => RestaurantListPage(),
-        RestaurantPage.routName: (context) => RestaurantPage(
-            restaurant:
-                ModalRoute.of(context)?.settings.arguments as Restaurant),
-        RestaurantSearchPage.routName: (context) => RestaurantSearchPage(
-            query: ModalRoute.of(context)?.settings.arguments as String),
-        CustomerReviewsPage.routName: (context) => CustomerReviewsPage(
-            reviews: ModalRoute.of(context)?.settings.arguments
-                as List<CustomerReview>)
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) => RestaurantListProvider(apiService: ApiService())),
+        ChangeNotifierProvider(
+            create: (_) =>
+                PreferencesProvider(preferencesHelper: PreferencesHelper(
+                  sharedPreferences: SharedPreferences.getInstance()
+                )))
+      ],
+      child: Consumer<PreferencesProvider>(
+        builder: (context, provider, child) {
+          return MaterialApp(
+            title: 'Steamy Restaurant',
+            theme: provider.themeData,
+            initialRoute: HomePage.routName,
+            routes: {
+              HomePage.routName: (context) => HomePage(),
+              RestaurantListPage.routName: (context) => RestaurantListPage(),
+              RestaurantPage.routName: (context) => RestaurantPage(
+                  restaurant:
+                      ModalRoute.of(context)?.settings.arguments as Restaurant),
+              RestaurantSearchPage.routName: (context) => RestaurantSearchPage(
+                  query: ModalRoute.of(context)?.settings.arguments as String),
+              CustomerReviewsPage.routName: (context) => CustomerReviewsPage(
+                  reviews: ModalRoute.of(context)?.settings.arguments
+                      as List<CustomerReview>)
+            },
+          );
+        },
+      ),
     );
   }
 }
