@@ -32,7 +32,7 @@ class PreferencesProvider extends ChangeNotifier {
     _getTheme();
   }
 
-  void enableDailyNews(bool value) {
+  void enableDailyReminder(bool value) {
     preferencesHelper.setDailyReminder(value);
     _getDailyReminderPreferences();
   }

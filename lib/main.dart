@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/preferences/preferences_helper.dart';
 import 'package:restaurant_app/data/provider/preferences_provider.dart';
 import 'package:restaurant_app/data/provider/restaurant_list_provider.dart';
+import 'package:restaurant_app/data/provider/scheduling_provider.dart';
 import 'package:restaurant_app/ui/customer_reviews_page.dart';
 import 'package:restaurant_app/ui/home_page.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
@@ -14,6 +16,9 @@ import 'package:restaurant_app/ui/restaurant_list_page.dart';
 import 'package:restaurant_app/ui/restaurant_search_page.dart';
 import 'package:restaurant_app/ui/splash_screen_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() {
   runApp(MyApp());
@@ -48,11 +53,11 @@ class MainPage extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
             create: (_) => RestaurantListProvider(apiService: ApiService())),
+        ChangeNotifierProvider(create: (_) => SchedulingProvider()),
         ChangeNotifierProvider(
-            create: (_) =>
-                PreferencesProvider(preferencesHelper: PreferencesHelper(
-                  sharedPreferences: SharedPreferences.getInstance()
-                )))
+            create: (_) => PreferencesProvider(
+                preferencesHelper: PreferencesHelper(
+                    sharedPreferences: SharedPreferences.getInstance())))
       ],
       child: Consumer<PreferencesProvider>(
         builder: (context, provider, child) {

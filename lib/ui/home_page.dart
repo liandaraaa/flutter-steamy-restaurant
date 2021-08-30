@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
+import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant_list_page.dart';
+import 'package:restaurant_app/ui/settings_page.dart';
+import 'package:restaurant_app/utils/notification_helper.dart';
 import 'package:restaurant_app/widgets/platform_widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +20,8 @@ class HomePageState extends State<HomePage> {
   Widget appBarTitle = Text("Steamy Restaurant");
   Icon actionIcon = Icon(Icons.search);
 
+  final NotificationHelper _notificationHelper = NotificationHelper();
+
   @override
   Widget build(BuildContext context) {
     return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos);
@@ -24,7 +29,7 @@ class HomePageState extends State<HomePage> {
 
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
-      body: bottomNavIndex == 0 ? RestaurantListPage() : Placeholder(),
+      body: bottomNavIndex == 0 ? RestaurantListPage() : SettingsPage(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: secondaryColor,
         unselectedItemColor: Colors.grey,
@@ -59,11 +64,24 @@ class HomePageState extends State<HomePage> {
           case 0:
             return RestaurantListPage();
           case 1:
-            return Placeholder();
+            return SettingsPage();
           default:
-            return Placeholder();
+            return RestaurantListPage();
         }
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationHelper
+        .configureSelectNotificationSubject(RestaurantPage.routName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
   }
 }
