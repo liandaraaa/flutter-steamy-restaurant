@@ -4,8 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/data/db/database_helper.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/preferences/preferences_helper.dart';
+import 'package:restaurant_app/data/provider/database_provider.dart';
 import 'package:restaurant_app/data/provider/preferences_provider.dart';
 import 'package:restaurant_app/data/provider/restaurant_list_provider.dart';
 import 'package:restaurant_app/data/provider/scheduling_provider.dart';
@@ -57,7 +59,8 @@ class MainPage extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => PreferencesProvider(
                 preferencesHelper: PreferencesHelper(
-                    sharedPreferences: SharedPreferences.getInstance())))
+                    sharedPreferences: SharedPreferences.getInstance()))),
+        ChangeNotifierProvider(create: (_) => DatabaseProvider(databaseHelper: DatabaseHelper()))
       ],
       child: Consumer<PreferencesProvider>(
         builder: (context, provider, child) {
