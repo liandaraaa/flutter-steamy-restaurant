@@ -28,6 +28,9 @@ class RestaurantItem extends StatelessWidget {
 
   Widget _buildRestaurantItem(BuildContext context, Restaurant restaurant,
       bool isFavorite, DatabaseProvider provider) {
+    var _basePictureUrl = "https://restaurant-api.dicoding.dev/images/medium/";
+    String picture = _basePictureUrl + restaurant.pictureId;
+
     return Material(
       child: ListTile(
         contentPadding:
@@ -37,7 +40,7 @@ class RestaurantItem extends StatelessWidget {
             child: Hero(
               tag: restaurant.id,
               child: Image.network(
-                restaurant.pictureId,
+                picture,
                 width: 100,
                 fit: BoxFit.fill,
               ),

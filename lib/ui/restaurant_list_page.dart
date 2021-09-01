@@ -3,14 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/state.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/provider/restaurant_list_provider.dart';
 import 'package:restaurant_app/ui/restaurant_search_page.dart';
 import 'package:restaurant_app/widgets/error_widget.dart';
 import 'package:restaurant_app/widgets/platform_widgets.dart';
 import 'package:restaurant_app/widgets/restaurant_item.dart';
-
-import 'restaurant_detail_page.dart';
 
 class RestaurantListPage extends StatefulWidget {
   static const routName = '/restaurant_list_page';
@@ -43,7 +40,9 @@ class RestaurantListPageState extends State<RestaurantListPage> {
             itemCount: state.response.restaurants.length,
             itemBuilder: (context, index) {
               var restaurant = state.response.restaurants[index];
-              return RestaurantItem(restaurant: restaurant,);
+              return RestaurantItem(
+                restaurant: restaurant,
+              );
             },
           );
         } else if (state.state == ResultState.NoData) {

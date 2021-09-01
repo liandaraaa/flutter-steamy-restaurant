@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
+import 'package:restaurant_app/ui/restaurant_favorite_list_page.dart';
 import 'package:restaurant_app/ui/restaurant_list_page.dart';
 import 'package:restaurant_app/ui/settings_page.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
@@ -22,6 +23,12 @@ class HomePageState extends State<HomePage> {
 
   final NotificationHelper _notificationHelper = NotificationHelper();
 
+  List<Widget> _listWidget = [
+    RestaurantListPage(),
+    RestaurantFavoriteListPage(),
+    SettingsPage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos);
@@ -29,7 +36,7 @@ class HomePageState extends State<HomePage> {
 
   Widget _buildAndroid(BuildContext context) {
     return Scaffold(
-      body: bottomNavIndex == 0 ? RestaurantListPage() : SettingsPage(),
+      body: _listWidget[bottomNavIndex],
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: secondaryColor,
         unselectedItemColor: Colors.grey,
@@ -37,6 +44,8 @@ class HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.restaurant), title: Text('Home')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), title: Text('Favorite')),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), title: Text("Settings"))
         ],
@@ -56,6 +65,8 @@ class HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.restaurant), title: Text('Home')),
           BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), title: Text('Favorite')),
+          BottomNavigationBarItem(
               icon: Icon(Icons.settings), title: Text('Settings'))
         ],
       ),
@@ -64,6 +75,8 @@ class HomePageState extends State<HomePage> {
           case 0:
             return RestaurantListPage();
           case 1:
+            return RestaurantFavoriteListPage();
+          case 2:
             return SettingsPage();
           default:
             return RestaurantListPage();

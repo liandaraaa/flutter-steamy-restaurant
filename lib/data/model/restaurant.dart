@@ -49,7 +49,7 @@ class Restaurant {
         name: json["name"],
         description: json["description"],
         city: json["city"],
-        pictureId: _basePictureUrl + json["pictureId"],
+        pictureId: json["pictureId"],
         rating: json["rating"].toDouble(),
       );
 
@@ -120,7 +120,7 @@ class RestaurantDetail {
         description: json["description"],
         city: json["city"],
         address: json["address"],
-        pictureId: _basePictureUrl + json["pictureId"],
+        pictureId: json["pictureId"],
         categories: List<Category>.from(
             json["categories"]?.map((x) => Category.fromJson(x)) ?? []),
         menus: Menus?.fromJson(json["menus"]),
@@ -233,5 +233,3 @@ class RestaurantSearchResponse {
         "restaurants": List<dynamic>.from(restaurants.map((x) => x.toJson())),
       };
 }
-
-var _basePictureUrl = "https://restaurant-api.dicoding.dev/images/medium/";
