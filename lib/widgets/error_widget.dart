@@ -19,7 +19,9 @@ class ErrorWidgetPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text(message,),
+          Text(
+            message,
+          ),
         ],
       )),
     );

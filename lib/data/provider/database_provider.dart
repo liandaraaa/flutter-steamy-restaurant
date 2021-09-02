@@ -6,17 +6,20 @@ import 'package:restaurant_app/data/model/restaurant.dart';
 class DatabaseProvider extends ChangeNotifier {
   final DatabaseHelper databaseHelper;
 
-  DatabaseProvider({required this.databaseHelper}){
+  DatabaseProvider({required this.databaseHelper}) {
     _getFavorite();
   }
 
   late ResultState _state;
+
   ResultState get state => _state;
 
   String _message = '';
+
   String get message => _message;
 
   List<Restaurant> _favorite = [];
+
   List<Restaurant> get favorite => _favorite;
 
   void _getFavorite() async {

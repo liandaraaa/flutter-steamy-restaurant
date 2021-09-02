@@ -29,7 +29,10 @@ class RestaurantFavoriteListPage extends StatelessWidget {
             },
           );
         } else {
-          return ErrorWidgetPage(message: provider.message, image: 'images/ic_empty.png',);
+          return ErrorWidgetPage(
+            message: provider.message,
+            image: 'images/ic_empty.png',
+          );
         }
       },
     );

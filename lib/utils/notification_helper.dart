@@ -59,8 +59,10 @@ class NotificationHelper {
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
 
-    var titleNotification = "<b>Daily Reminder</b>";
-    var titleRestaurant = restaurants.restaurants[0].name;
+    var titleNotification =
+        "<b>${restaurants.restaurants[0].name} Restaurant</b>";
+    var titleRestaurant =
+        "Let's take a break and visit your favorite restaurant in Steamy ";
 
     await flutterLocalNotificationsPlugin.show(
         0, titleNotification, titleRestaurant, platformChannelSpecifics,

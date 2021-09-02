@@ -6,15 +6,17 @@ import 'package:restaurant_app/data/preferences/preferences_helper.dart';
 class PreferencesProvider extends ChangeNotifier {
   PreferencesHelper preferencesHelper;
 
-  PreferencesProvider({required this.preferencesHelper}){
+  PreferencesProvider({required this.preferencesHelper}) {
     _getTheme();
     _getDailyReminderPreferences();
   }
 
   bool _isDarkTheme = false;
+
   bool get isDarkTheme => _isDarkTheme;
 
   bool _isDailyReminderActive = false;
+
   bool get isDailyReminderActive => _isDailyReminderActive;
 
   void _getTheme() async {
@@ -38,5 +40,4 @@ class PreferencesProvider extends ChangeNotifier {
   }
 
   ThemeData get themeData => _isDarkTheme ? darkTheme : lightTheme;
-  
 }

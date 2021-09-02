@@ -84,10 +84,13 @@ class RestaurantDetailPage extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       InkWell(
-                          child: Text("Tap to view Customer Reviews",
-                          style: TextStyle(fontSize: 8, color: Colors.blue),),
+                        child: Text(
+                          "Tap to view Customer Reviews",
+                          style: TextStyle(fontSize: 8, color: Colors.blue),
+                        ),
                         onTap: () {
-                          Navigator.pushNamed(context, CustomerReviewsPage.routName,
+                          Navigator.pushNamed(
+                              context, CustomerReviewsPage.routName,
                               arguments: restaurant.customerReviews);
                         },
                       ),

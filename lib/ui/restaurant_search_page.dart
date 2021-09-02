@@ -76,7 +76,6 @@ class RestaurantSearchPageState extends State<RestaurantSearchPage> {
 
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
-
       navigationBar: CupertinoNavigationBar(
         middle: Text(
           query,

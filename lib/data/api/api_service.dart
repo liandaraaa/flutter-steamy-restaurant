@@ -10,7 +10,7 @@ class ApiService {
   Uri restaurantListUrl = Uri.parse(_baseUrl + "/list");
 
   Future<RestaurantListResponse> getRestaurants() async {
-    try{
+    try {
       final response = await http.get(restaurantListUrl);
       if (response.statusCode == 200) {
         return RestaurantListResponse.fromJson(json.decode(response.body));
@@ -31,13 +31,13 @@ class ApiService {
       } else {
         throw Exception('Failed to load detail restaurant');
       }
-    }on SocketException catch (_) {
+    } on SocketException catch (_) {
       throw Exception("No internet connection");
     }
   }
 
   Future<RestaurantSearchResponse> getSearchRestaurants(String query) async {
-    try{
+    try {
       var url = Uri.parse(_baseUrl + "/search?q=$query");
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -45,7 +45,7 @@ class ApiService {
       } else {
         throw Exception('Failed to load list of restaurants');
       }
-    }on SocketException catch (_) {
+    } on SocketException catch (_) {
       throw Exception("No internet connection");
     }
   }
