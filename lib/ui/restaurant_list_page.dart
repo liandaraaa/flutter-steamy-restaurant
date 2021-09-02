@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/state.dart';
-import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/provider/restaurant_list_provider.dart';
 import 'package:restaurant_app/ui/restaurant_search_page.dart';
 import 'package:restaurant_app/widgets/error_widget.dart';
@@ -22,11 +21,7 @@ class RestaurantListPageState extends State<RestaurantListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => RestaurantListProvider(apiService: ApiService()),
-      child:
-          PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos),
-    );
+    return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos);
   }
 
   Widget _buildList(BuildContext context) {
@@ -56,7 +51,10 @@ class RestaurantListPageState extends State<RestaurantListPage> {
             image: 'images/ic_error.png',
           );
         } else {
-          return Center(child: Text(''));
+          return ErrorWidgetPage(
+            message: state.message,
+            image: 'images/ic_error.png',
+          );
         }
       },
     );

@@ -6,7 +6,7 @@ import 'package:restaurant_app/widgets/error_widget.dart';
 class CustomerReviewsPage extends StatelessWidget {
   static const routName = '/customer_review_page';
 
-  List<CustomerReview> reviews;
+  final List<CustomerReview> reviews;
 
   CustomerReviewsPage({required this.reviews});
 
@@ -16,8 +16,7 @@ class CustomerReviewsPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("Review"),
         ),
-        body: _buildPage(context)
-    );
+        body: _buildPage(context));
   }
 
   Widget _buildPage(BuildContext context) {
@@ -32,7 +31,9 @@ class CustomerReviewsPage extends StatelessWidget {
       );
     } else {
       return ErrorWidgetPage(
-        message: "Empty Data", image: 'images/ic_empty.png',);
+        message: "Empty Data",
+        image: 'images/ic_empty.png',
+      );
     }
   }
 
@@ -40,7 +41,7 @@ class CustomerReviewsPage extends StatelessWidget {
     return Material(
       child: ListTile(
         contentPadding:
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         title: Container(
           margin: EdgeInsets.only(bottom: 10),
           child: Text(

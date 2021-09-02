@@ -7,10 +7,11 @@ import 'package:restaurant_app/data/model/restaurant.dart';
 class ApiService {
   static final String _baseUrl = 'https://restaurant-api.dicoding.dev/';
 
+  Uri restaurantListUrl = Uri.parse(_baseUrl + "/list");
+
   Future<RestaurantListResponse> getRestaurants() async {
     try{
-      var url = Uri.parse(_baseUrl + "/list");
-      final response = await http.get(url);
+      final response = await http.get(restaurantListUrl);
       if (response.statusCode == 200) {
         return RestaurantListResponse.fromJson(json.decode(response.body));
       } else {

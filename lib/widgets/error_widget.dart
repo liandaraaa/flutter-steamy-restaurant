@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ErrorWidgetPage extends StatelessWidget {
-  String message;
-  String image;
+  final String message;
+  final String image;
 
   ErrorWidgetPage({required this.message, required this.image});
 
