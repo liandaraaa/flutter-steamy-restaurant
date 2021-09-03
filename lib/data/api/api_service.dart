@@ -9,9 +9,9 @@ class ApiService {
 
   Uri restaurantListUrl = Uri.parse(_baseUrl + "/list");
 
-  Future<RestaurantListResponse> getRestaurants() async {
+  Future<RestaurantListResponse> getRestaurants(http.Client client) async {
     try {
-      final response = await http.get(restaurantListUrl);
+      final response = await client.get(restaurantListUrl);
       if (response.statusCode == 200) {
         return RestaurantListResponse.fromJson(json.decode(response.body));
       } else {

@@ -53,6 +53,9 @@ class RestaurantDetailPage extends StatelessWidget {
   }
 
   Widget _restaurantDetail(BuildContext context, RestaurantDetail restaurant) {
+    var _basePictureUrl = "https://restaurant-api.dicoding.dev/images/medium/";
+    String picture = _basePictureUrl + restaurant.pictureId;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -66,9 +69,7 @@ class RestaurantDetailPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Hero(
-                  tag: restaurant.id,
-                  child: Image.network(restaurant.pictureId)),
+              Hero(tag: restaurant.id, child: Image.network(picture)),
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Column(

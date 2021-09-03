@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -60,20 +61,32 @@ void main() {
           .thenAnswer((_) async => http.Response(json, 200));
 
       //assert
-      var restaurantActual = await api.getRestaurants();
+      var restaurantActual = await api.getRestaurants(client);
       expect(restaurantActual, isA<RestaurantListResponse>());
     });
 
-    test('should throws an error when api failed', () async {
+    test('should contain list of restaurant when api failed', () {
+      //arrange
       final api = ApiService();
       final client = MockClient();
 
-      when(client.get(api.restaurantListUrl))
-          .thenAnswer((_) async => http.Response('Not Found', 404));
+      when(client.get(api.restaurantListUrl)).thenAnswer((_) async =>
+          http.Response('Failed to load list of restaurants', 404));
 
-      api.getRestaurants().catchError((onError) {
-        expect(onError.toString(), 'error');
-      });
+      var restaurantActual = api.getRestaurants(client);
+      expect(restaurantActual, throwsException);
+    });
+
+    test('should contain list of restaurant when no internet connection', () {
+      //arrange
+      final api = ApiService();
+      final client = MockClient();
+
+      when(client.get(api.restaurantListUrl)).thenAnswer(
+          (_) async => throw SocketException('No Internet Connection'));
+
+      var restaurantActual = api.getRestaurants(client);
+      expect(restaurantActual, throwsException);
     });
   });
 }
